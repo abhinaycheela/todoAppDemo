@@ -1,0 +1,92 @@
+<html>
+    <head>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+<body>
+    <div class='container-fluid'>
+        <div  class='row'>
+            <div class="col-lg-12">
+                <div  class='center-block m-4' align='center'>
+                    <h1>ToDo</h1>
+                </div>
+            </div>
+        </div>
+        <div class='row'  style="border-top:2.5px solid gray;font-weight: bold;font-size:20;border-bottom: 2.5px solid gray;padding:5 0 5 10;text-align: center">
+          <div class='col-sm-3'></div>
+            <div class='col-sm-2'>
+               <label>Pending Tasks:</label>
+                <span id="Pending"></span>
+            </div>
+            <div class='col-sm-2'>
+                <label>Completed Tasks:</label>
+                <span id="Completed"></span>
+            </div>
+            <div class='col-sm-2'>
+                <label>Progress:</label>
+                <span id="Progress"></span>
+            </div>
+        </div>
+        <div class='row' style="margin-top:10px">
+            <div class='col-lg-5'></div>
+            
+            <div class='col-lg-2 border rounded'>
+                <div class="m-3">
+                    <div class="form-group">
+                        <label for="taskname">Task Name:</label>
+                        <input type="text" class="form-control" name="taskname" id="taskname" placeholder="Task Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <select id='status' name="status" class="form-control">
+                            <option value="1">Pending</option>
+                            <option value="2">Completed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tags">Tags:</label>
+                        <input type="text" class="form-control" name="tags" id="tags" width="auto">
+                        <button class="btn" onclick="addTags()">+</button>                        
+                    </div>
+                    <div id="tagdisplay"  ></div>
+                    <button type="button" class="btn btn-default float-right mb-3" id="save" onclick=addTask() >Save</button>
+                </div>
+            </div>
+            <div class='col-lg-5'></div>    
+        </div>
+        <div class="row m-4">
+            <div class='col-lg-3'></div>
+            <div class='input-group col-lg-2'>
+                <input id="search" type="text" class="checkbox form-control border-right-0" onkeyup="filterFun()" placeholder="Search..."/>
+                <span class="input-group-addon bg-white">
+                    <i class="material-icons">search</i> 
+                </span>
+            </div>
+            <div class='col-lg-4 mt-2'>
+                <a href="#" class="float-right" onclick="clearCompleted()">X Clear Completed</a>
+                <label class="float-right"><input type="checkbox" id="showPending" onchange="showPending(event)">&nbsp Show Pending&nbsp&nbsp&nbsp</label>
+            </div>
+             <div class='col-lg-3'></div>
+        </div>
+        <div class="row m-4">
+            <div class='col-lg-3'></div>
+            <div class='col-lg-6'>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                        <th id="col_0">&#9660;Complete </th>
+                        <th id="col_1">&#9660;Task Name </th>
+                        <th id="col_2">&#9660;Tags</th>
+                        <th id="col_3">&#9660;Status </th>
+                        <th id="col_4">&#9660;Actions </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tasksTable"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <script  src="script.js"></script>
+</body>
+<html>

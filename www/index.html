@@ -1,63 +1,92 @@
-<!DOCTYPE html>
-<!--
-    Copyright (c) 2012-2016 Adobe Systems Incorporated. All rights reserved.
-
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
-
-<head>
-    <meta charset="utf-8" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="msapplication-tap-highlight" content="no" />
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
-    <!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
-    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *"
-    />
-    <!-- Good default declaration:
-    * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
-    * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
-    * Disables use of eval() and inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
-        * Enable inline JS: add 'unsafe-inline' to default-src
-        * Enable eval(): add 'unsafe-eval' to default-src
-    * Create your own at http://cspisawesome.com
-    -->
-    <!-- <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: 'unsafe-inline' https://ssl.gstatic.com; style-src 'self' 'unsafe-inline'; media-src *" /> -->
-
-    <link rel="stylesheet" type="text/css" href="css/index.css" />
-    <title>Hello World</title>
-</head>
-
+    <head>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
 <body>
-    <div class="app">
-        <h1>PhoneGap</h1>
-        <div id="deviceready" class="blink">
-            <h1>testing</h1>
-
-            <p class="event listening">Connecting to Device</p>
-            <p class="event received">Device is Ready</p>
+    <div class='container-fluid'>
+        <div  class='row'>
+            <div class="col-lg-12">
+                <div  class='center-block m-4' align='center'>
+                    <h1>ToDo</h1>
+                </div>
+            </div>
+        </div>
+        <div class='row'  style="border-top:2.5px solid gray;font-weight: bold;font-size:20;border-bottom: 2.5px solid gray;padding:5 0 5 10;text-align: center">
+          <div class='col-sm-3'></div>
+            <div class='col-sm-2'>
+               <label>Pending Tasks:</label>
+                <span id="Pending"></span>
+            </div>
+            <div class='col-sm-2'>
+                <label>Completed Tasks:</label>
+                <span id="Completed"></span>
+            </div>
+            <div class='col-sm-2'>
+                <label>Progress:</label>
+                <span id="Progress"></span>
+            </div>
+        </div>
+        <div class='row' style="margin-top:10px">
+            <div class='col-lg-5'></div>
+            
+            <div class='col-lg-2 border rounded'>
+                <div class="m-3">
+                    <div class="form-group">
+                        <label for="taskname">Task Name:</label>
+                        <input type="text" class="form-control" name="taskname" id="taskname" placeholder="Task Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <select id='status' name="status" class="form-control">
+                            <option value="1">Pending</option>
+                            <option value="2">Completed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tags">Tags:</label>
+                        <input type="text" class="form-control" name="tags" id="tags" width="auto">
+                        <button class="btn" onclick="addTags()">+</button>                        
+                    </div>
+                    <div id="tagdisplay"  ></div>
+                    <button type="button" class="btn btn-default float-right mb-3" id="save" onclick=addTask() >Save</button>
+                </div>
+            </div>
+            <div class='col-lg-5'></div>    
+        </div>
+        <div class="row m-4">
+            <div class='col-lg-3'></div>
+            <div class='input-group col-lg-2'>
+                <input id="search" type="text" class="checkbox form-control border-right-0" onkeyup="filterFun()" placeholder="Search..."/>
+                <span class="input-group-addon bg-white">
+                    <i class="material-icons">search</i> 
+                </span>
+            </div>
+            <div class='col-lg-4 mt-2'>
+                <a href="#" class="float-right" onclick="clearCompleted()">X Clear Completed</a>
+                <label class="float-right"><input type="checkbox" id="showPending" onchange="showPending(event)">&nbsp Show Pending&nbsp&nbsp&nbsp</label>
+            </div>
+             <div class='col-lg-3'></div>
+        </div>
+        <div class="row m-4">
+            <div class='col-lg-3'></div>
+            <div class='col-lg-6'>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                        <th id="col_0">&#9660;Complete </th>
+                        <th id="col_1">&#9660;Task Name </th>
+                        <th id="col_2">&#9660;Tags</th>
+                        <th id="col_3">&#9660;Status </th>
+                        <th id="col_4">&#9660;Actions </th>
+                        </tr>
+                    </thead>
+                    <tbody id="tasksTable"></tbody>
+                </table>
+            </div>
         </div>
     </div>
-    <script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="js/index.js"></script>
-    <script type="text/javascript">
-        app.initialize();
-    </script>
+    <script  src="scripts/script.js"></script>
 </body>
-
-</html>
+<html>
